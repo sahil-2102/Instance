@@ -1,9 +1,10 @@
-import express, { urlencoded } from 'express';
+import express from 'express';
 import cors from 'cors';
-import { configDotenv } from 'dotenv';
+import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
-configDotenv();
+import router from './routes/auth.routes.js';
+dotenv.config();
 const app = express();
 const port = process.env.PORT;
 connectDB();
@@ -13,7 +14,8 @@ app.use(cookieParser());
 app.use(cors({origin: allowedOrigins,credentials: true}));
 app.get('/', (req, res) => {
     res.send("Hello World!");
-})
+});
+app.use('/api/auth', router);
 app.listen(port, () => {
     console.log(`Server running on: localhost:${port}`)
 })

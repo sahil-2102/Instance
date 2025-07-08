@@ -44,7 +44,8 @@ export const login = async (req, res) => {
     return res.json({ success: false, message: "All fields are required!" });
   try {
     const user = await User.findOne({ email });
-    if(!user) return res.json({success: false, message: "Wrong credentials!"});
+    if (!user)
+      return res.json({ success: false, message: "Wrong credentials!" });
     const correctPass = await bcrypt.compare(password, user.password);
     if (!correctPass)
       return res.json({ success: false, message: "Wrong credentials!" });
@@ -57,11 +58,16 @@ export const login = async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return res.json({success: true,
-        name: user.name,
-        userEmail: email
-    })
+    return res.json({ success: true, name: user.name, userEmail: email });
   } catch (error) {
-    return res.json({success: false, message: "Internal server error!"});
+    return res.json({ success: false, message: "Internal server error!" });
   }
+};
+export const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  });
+  return res.json({success: true, message: "Logged Out!"});
 };

@@ -60,6 +60,8 @@ export const login = async (req, res) => {
     });
     return res.json({ success: true, name: user.name, userEmail: email });
   } catch (error) {
+    console.log("error in login controller: ", error.message);
+    
     return res.json({ success: false, message: "Internal server error!" });
   }
 };

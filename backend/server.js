@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
-import router from './routes/auth.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import userRoutes from './routes/user.routes.js';
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
@@ -15,7 +16,9 @@ app.use(cors({origin: allowedOrigins,credentials: true}));
 app.get('/', (req, res) => {
     res.send("Hello World!");
 });
-app.use('/api/auth', router);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+app.use
 app.listen(port, () => {
     console.log(`Server running on: localhost:${port}`)
 })

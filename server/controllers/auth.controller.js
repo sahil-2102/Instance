@@ -38,7 +38,7 @@ const login = async (req,res) => {
         }
         const user = await User.findOne({email});
         if(!user){
-            return res.status(400).json({success: false, message: "Invalid credentials!"});
+            return res.status(400).json({success: false, message: "Invalid user!"});
         }
         const comp = await bcrypt.compare(password, user.password);
         if(!comp){
@@ -66,12 +66,11 @@ const logout = (req,res) => {
         const options = {
             httpOnly: true,
             sameSite: 'strict',
-            secure: process.env.NODE_ENV === 'production'
+            secure: process.env.NODE_ENV === 'production',
+            maxAge:0
         }
         res.clearCookie('token',options);
-        if(!req.cookies?.token){
-            return res.status(200).json({success:true});
-        }
+        if(!req.cookie?.token) return res.status(200).json({success:true});
     } catch (error) {
         console.log(`Error in logout controller: ${error.message}`);
         return res.status(500).json({success: false, message:"Internal server error!"});

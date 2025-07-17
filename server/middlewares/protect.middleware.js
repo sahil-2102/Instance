@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const protectedRoute = async (req, res) => {
+const protectedRoute = async (req, res, next) => {
     try {
         const token = req.cookies?.token;
         if(!token){

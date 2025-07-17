@@ -61,3 +61,21 @@ const login = async (req,res) => {
         
     }
 }
+const logout = (req,res) => {
+    try {
+        const options = {
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV === 'production'
+        }
+        res.clearCookie('token',options);
+        if(!req.cookies?.token){
+            return res.status(200).json({success:true});
+        }
+    } catch (error) {
+        console.log(`Error in logout controller: ${error.message}`);
+        return res.status(500).json({success: false, message:"Internal server error!"});
+    }
+}
+
+export {signup, login, logout};

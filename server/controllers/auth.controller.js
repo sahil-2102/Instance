@@ -29,3 +29,35 @@ const signup = async (req, res) => {
         return res.status(500).json({success: false, message: "Internal Server Error!"});
     }
 }
+
+const login = async (req,res) => {
+    try {
+        const {email, password} = req.body;
+        if(!email || !password){
+            return res.status(400).json({success: false, message:"All fields are required!"});
+        }
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(400).json({success: false, message: "Invalid credentials!"});
+        }
+        const comp = await bcrypt.compare(password, user.password);
+        if(!comp){
+            return res.status(400).json({success: false, message:"Invalid creadentials!"});
+        }
+        const token = jwt.sign({id: user._id},process.env.JWT_SECRET,{expiresIn:'7d'});
+        const options = {
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
+        }
+        return res
+                .status(200)
+                .cookie('token',token,options)
+                .json({success:true, email, name:user.name});
+    } catch (error) {
+        console.log(`Error in login controller: ${error.message}`);
+        return res.status(500).json({success:false, message: "Internal server error!"});
+        
+    }
+}

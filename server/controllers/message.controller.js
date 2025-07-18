@@ -21,3 +21,16 @@ export const sendMessage = async(req, res) => {
     }
 }
 
+export const getMessages = async(req,res) => {
+    try {
+        const {chatId} = req.params;
+        const messages = await Message.find({chat:chatId})
+        .populate("sender","-password")
+        .populate("chat");
+
+        return res.status(200).json({success:true,messages});
+    } catch (error) {
+        console.log(`Error in getMessage controller:${error.message}`);
+        return res.status(500).json({success:false,message:"Internal server error!"});
+    }
+}

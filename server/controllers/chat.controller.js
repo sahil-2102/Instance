@@ -24,3 +24,15 @@ export const getSingleChat = async (req, res) => {
         return res.status(500).json({success:false,message:"Internal server error!"});
     }
 }
+
+export const getAllChats = async (req, res) => {
+    try {
+        const myId = req.user;
+        const myAllChats = await Chat.find({members: myId}).populate("members","-password").sort({updatedAt:-1});
+        return res.status(200).json({success:true,myAllChats});
+    } catch (error) {
+        console.log(`Error in getAll chat controller: ${error.message}`);
+        return res.status(500).json({success:false,message:"Internal server error!"});
+    }
+}
+

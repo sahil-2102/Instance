@@ -1,10 +1,13 @@
-
+import { Routes, Route } from "react-router-dom"
 function App() {
 
   return (
-    <>
-      <h1>Helo</h1>
-    </>
+    <div>
+      <h1>Hello</h1>
+      <Routes>
+        
+      </Routes>
+    </div>
   )
 }
 

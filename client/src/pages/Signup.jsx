@@ -23,7 +23,7 @@ const Signup = () => {
             setEmail("");
             setPassword("");
             setLoad(false);
-            navigate('/');
+            navigate('/login');
         } catch (error) {
             setMessage(error.response?.data?.message);
             setName("");

@@ -20,7 +20,7 @@ const Login = () => {
             if(res){
                 setMessage(res.data.message);
                 setUser({
-                    id: res.data.id
+                    id: res.data.id,
                     name: res.data.name,
                     email: res.data.email
                 })

@@ -54,7 +54,7 @@ const login = async (req,res) => {
         return res
                 .status(200)
                 .cookie('token',token,options)
-                .json({success:true, email, name:user.name});
+                .json({success:true,id: user._id, email, name:user.name});
     } catch (error) {
         console.log(`Error in login controller: ${error.message}`);
         return res.status(500).json({success:false, message: "Internal server error!"});

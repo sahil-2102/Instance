@@ -10,7 +10,7 @@ const Login = () => {
     const [load,setLoad] = useState(false);
     const navigate = useNavigate('');
 
-    const {setUser} = useContext(UserContext);
+    const {setUser,setLogged} = useContext(UserContext);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoad(true);
@@ -20,9 +20,11 @@ const Login = () => {
             if(res){
                 setMessage(res.data.message);
                 setUser({
+                    id: res.data.id
                     name: res.data.name,
                     email: res.data.email
                 })
+                setLogged(true)
             }
            
             setEmail("");

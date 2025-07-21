@@ -1,14 +1,16 @@
 import SubmitButton from "../components/SubmitButton"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
-
+import UserContext from "../context/UserContext";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [message,setMessage] = useState("");
     const [load,setLoad] = useState(false);
     const navigate = useNavigate('');
+
+    const {setUser} = useContext(UserContext);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoad(true);
@@ -17,6 +19,10 @@ const Login = () => {
             const res = await axios.post("http://localhost:5000/api/auth/login",{email,password},{withCredentials:true});
             if(res){
                 setMessage(res.data.message);
+                setUser({
+                    name: res.data.name,
+                    email: res.data.email
+                })
             }
            
             setEmail("");

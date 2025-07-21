@@ -1,13 +1,18 @@
+import { useContext } from "react";
 import Navbar from "../components/Navbar"
 import { useNavigate } from "react-router-dom"
+import UserContext from "../context/UserContext";
 const Homepage = () => {
   const navigate = useNavigate('');
+  const {user} = useContext(UserContext);
   return (
     <div className="h-screen w-full bg-black">
         <Navbar/>
         <div className="mt-20 max-w-[800px] w-full mx-auto text-white p-2">
           <div className="flex flex-col items-center justify-center text-center gap-4 p-6">
-            <h1 className="text-3xl sm:text-8xl font-semibold">Hello Dev!</h1>
+            <h1 className="text-3xl sm:text-8xl font-semibold">
+              {user ? (`Hello ${user.name}`):(`Hello Dev!`)}
+            </h1>
             <p className="text-xl sm:text-3xl font-semibold">Welcome to Instance. Share precious moments and make new friends!</p>
             <button
             onClick={()=>navigate('/signup')}

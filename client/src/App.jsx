@@ -4,6 +4,7 @@ import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
 import Profile from "./pages/Profile"
 import Feed from "./pages/Feed"
+import Chat from "./pages/Chat"
 function App() {
 
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/me" element={<Profile/>}/>
         <Route path="/feed" element={<Feed/>}/>
+        <Route path="/chat" element={<Chat/>}/>
       </Routes>
     </div>
   )
